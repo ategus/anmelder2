@@ -93,7 +93,7 @@ def update(id):
             db.execute(
                 'UPDATE post SET title = ?,surname = ?, body = ?'
                 ' WHERE id = ?',
-                (title, body, id)
+                (title, surname, body, id)
             )
             db.commit()
             return redirect(url_for('blog.index'))
