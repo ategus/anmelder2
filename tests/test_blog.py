@@ -12,7 +12,7 @@ def test_index(client, auth):
     assert b'Log Out' in response.data
     assert b'test title' in response.data
     assert b'testsurname' in response.data
-
+    assert b'testlastname' in response.data
     assert b'2018-01-01' in response.data
     assert b'test\nbody' in response.data
  #TODO   assert b'href="/1/update"' in response.data
@@ -56,7 +56,7 @@ def test_exists_required(client, auth, path):
 def test_create(client, auth, app):
     auth.login()
     assert client.get('/create').status_code == 200
-    client.post('/create', data={'title': 'created','surname': '', 'body': ''})
+    client.post('/create', data={'title': 'created','surname': '','lastname': '', 'body': ''})
 
     with app.app_context():
         db = get_db()
@@ -67,7 +67,7 @@ def test_create(client, auth, app):
 def test_update(client, auth, app):
     auth.login()
     assert client.get('/1/update').status_code == 200
-    client.post('/1/update', data={'title': 'updated','surname': 'testsurname', 'body': ''})
+    client.post('/1/update', data={'title': 'updated','surname': 'testsurname','lastname': 'testlastname', 'body': ''})
 
     with app.app_context():
         db = get_db()
@@ -81,7 +81,7 @@ def test_update(client, auth, app):
 ))
 def test_create_update_validate(client, auth, path):
     auth.login()
-    response = client.post(path, data={'title': '','surname': 'testsurname', 'body': ''})
+    response = client.post(path, data={'title': '','surname': 'testsurname','lastname': 'testlastname', 'body': ''})
     assert b'Title is required.' in response.data
 
 

@@ -13,7 +13,7 @@ bp = Blueprint('blog', __name__)
 def index():
     db = get_db()
     posts = db.execute(
-        'SELECT p.id, title, surname, body, created, author_id, username'
+        'SELECT p.id, title, surname,lastname, body, created, author_id, username'
         ' FROM post p JOIN user u ON p.author_id = u.id'
         ' ORDER BY created DESC'
     ).fetchall()
@@ -26,6 +26,7 @@ def create():
     if request.method == 'POST':
         title = request.form['title']
         surname = request.form['surname']
+        lastname = request.form['lastname']
         body = request.form['body']
 
 
@@ -36,15 +37,16 @@ def create():
 
         if not surname:
             error = 'surname is required.'
-
+        if not lastname:
+            error = 'lastname is required.'
         if error is not None:
             flash(error)
         else:
             db = get_db()
             db.execute(
-                'INSERT INTO post (title, surname, body, author_id)'
-                ' VALUES (?, ?, ?, ?)',
-                (title, surname, body, g.user['id'])
+                'INSERT INTO post (title, surname,lastname, body, author_id)'
+                ' VALUES (?, ?, ?, ?, ?)',
+                (title, surname,lastname, body, g.user['id'])
             )
             db.commit()
             return redirect(url_for('blog.index'))
@@ -54,7 +56,7 @@ def create():
 
 def get_post(id, check_author=False):
     post = get_db().execute(
-        'SELECT p.id, title, surname, body, created, author_id, username'
+        'SELECT p.id, title, surname,lastname, body, created, author_id, username'
         ' FROM post p JOIN user u ON p.author_id = u.id'
         ' WHERE p.id = ?',
         (id,)
@@ -77,6 +79,7 @@ def update(id):
     if request.method == 'POST':
         title = request.form['title']
         surname = request.form['surname']
+        lastname = request.form['lastname']
         body = request.form['body']
         error = None
 
@@ -86,14 +89,18 @@ def update(id):
         if not surname:
             error = 'Surname is required.'
 
+
+        if not lastname:
+            error = 'Lastname is required.'
+
         if error is not None:
             flash(error)
         else:
             db = get_db()
             db.execute(
-                'UPDATE post SET title = ?,surname = ?, body = ?'
+                'UPDATE post SET title = ?,surname = ?,lastname = ?,  body = ?'
                 ' WHERE id = ?',
-                (title, surname, body, id)
+                (title, surname,lastname, body, id)
             )
             db.commit()
             return redirect(url_for('blog.index'))

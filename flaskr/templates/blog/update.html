@@ -13,6 +13,9 @@
     <label for="surname">Surname</label>
     <input name="surname" id="surname"
       value="{{ request.form['surname'] or post['surname'] }}" required>
+    <label for="lastname">Lastname</label>
+    <input name="lastname" id="lastname" 
+      value="{{ request.form['lastname'] }}" required>     
     <label for="body">Body</label>
     <textarea name="body" id="body">{{ request.form['body'] or post['body'] }}</textarea>
     <input type="submit" value="Save">
