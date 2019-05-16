@@ -6,13 +6,13 @@
 
 {% block content %}
   <form method="post">
-    <label for="title">Title</label>
+    <label for="title">Kontaktmöglichkeit</label>
     <input name="title" id="title" value="{{ request.form['title'] }}" required>
-    <label for="surname">Surname</label>
+    <label for="surname">Vorname</label>
     <input name="surname" id="surname" value="{{ request.form['surname'] }}" required>
-    <label for="lastname">Lastname</label>
+    <label for="lastname">Name</label>
     <input name="lastname" id="lastname" value="{{ request.form['lastname'] }}" required>    
-    <label for="body">Body</label>
+    <label for="body">Notizen (Kurs?, Interesse?, weiteres ...)</label>
     <textarea name="body" id="body">{{ request.form['body'] }}</textarea>
     <input type="submit" value="Save">
   </form>
